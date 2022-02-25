@@ -17,10 +17,10 @@ public class Graph {
      * Konstruktor
      *
      * @param file   Textfilen som innehåller skådespelare och filmer
-     * @param movies
+     *
      */
-    public Graph(String file, HashMap<String, ArrayList<String>> movies) {
-        this.movies = movies;
+    public Graph(String file) {
+        movies = new HashMap<>();
         graphMap = new HashMap<>();
         actors = new HashSet<>();
         buildGraph(file);

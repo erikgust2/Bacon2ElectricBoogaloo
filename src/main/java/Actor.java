@@ -18,5 +18,14 @@ public class Actor {
         return name;
     }
 
+    @Override
+    public boolean equals(Object o){
+        if(o instanceof Actor){
+            return ((Actor) o).getName().equals(this.name);
+        }
+        return false;
+    }
+
+
 
 }
