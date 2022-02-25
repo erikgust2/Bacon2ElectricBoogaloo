@@ -4,6 +4,7 @@ import java.util.HashSet;
 
 public class Graph {
 
+    //Filmen är nyckel i form av en sträng
     private final HashMap<String, ArrayList<Actor>> graphMap;
     private final HashSet<Actor> actors;
 
