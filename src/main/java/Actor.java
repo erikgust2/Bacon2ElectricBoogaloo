@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class Actor {
-    private String name;
+    private final String name;
 
     private int baconDistance;
 
