@@ -4,7 +4,7 @@ public class Actor {
     private final String name;
     private int baconNumber;
 
-    public Actor(String name){
+    public Actor(String name) {
         this.name = name;
     }
 
@@ -12,23 +12,26 @@ public class Actor {
         this.baconNumber = baconDistance;
     }
 
-    public String getName(){
+    public String getName() {
+        return name;
+    }
+
+    public int getBaconNumber() {
+        return baconNumber;
+    }
+
+    @Override
+    public String toString() {
         return name;
     }
 
     @Override
-    public String toString(){
-        return name;
-    }
-
-    @Override
-    public boolean equals(Object o){
-        if(o instanceof Actor){
+    public boolean equals(Object o) {
+        if (o instanceof Actor) {
             return ((Actor) o).getName().equals(this.name);
         }
         return false;
     }
-
 
 
 }
