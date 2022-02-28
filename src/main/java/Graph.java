@@ -6,7 +6,7 @@ import java.util.*;
 
 public class Graph {
 
-    //Filmen är nyckel i form av en sträng
+
     private final Actor bacon = new Actor("Bacon, Kevin (I)");
     private final HashMap<String, ArrayList<String>> actors; //namn på skådespelare som nyckel, lista av filmer som värde
     private final HashMap<String, ArrayList<String>> movies; //titeln på filmen, sedan namnet på skådespelare
@@ -50,7 +50,7 @@ public class Graph {
                             movies.get(tokens[1]).add(actor.getName());
                         }
                         line = in.readLine();
-                        if(line == null){
+                        if (line == null) {
                             break;
                         }
                         tokens = line.split(">");
@@ -73,6 +73,9 @@ public class Graph {
 
 
     public String findPathToBacon(String startActor) {
+        if(!actors.containsKey(startActor)){
+            return "No such actor in the database!";
+        }
         if (startActor.equals(bacon.getName())) {
             List<String> path = computePath(startActor, null);
             return buildPathString(path);
@@ -85,7 +88,7 @@ public class Graph {
 
         while (!queue.isEmpty()) {
             current = queue.poll();
-            if(current.equals(bacon.getName())){
+            if (current.equals(bacon.getName())) {
                 break;
             }
             visited.add(current);
@@ -135,7 +138,11 @@ public class Graph {
 
     private String buildPathString(List<String> path) {
         StringBuilder output = new StringBuilder();
-        output.append("\"" + path.get(0) + "\" is " + path.size() / 2 + " steps away from Kevin B. The path is ");
+        if (path.size() / 2 == 1) {
+            output.append("\"" + path.get(0) + "\" is " + path.size() / 2 + " step away from Kevin B. The path is ");
+        } else {
+            output.append("\"" + path.get(0) + "\" is " + path.size() / 2 + " steps away from Kevin B. The path is ");
+        }
         for (String element : path) {
             if (actors.containsKey(element)) {
                 output.append("<a> " + element + " </a>");
