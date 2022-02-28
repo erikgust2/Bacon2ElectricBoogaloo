@@ -2,19 +2,22 @@ import java.util.ArrayList;
 
 public class Actor {
     private final String name;
-
-    private int baconDistance;
+    private int baconNumber;
 
     public Actor(String name){
         this.name = name;
-
     }
 
     public void setBaconDistance(int baconDistance) {
-        this.baconDistance = baconDistance;
+        this.baconNumber = baconDistance;
     }
 
     public String getName(){
+        return name;
+    }
+
+    @Override
+    public String toString(){
         return name;
     }
 

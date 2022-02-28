@@ -4,37 +4,26 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 
 public class Graph {
 
     //Filmen är nyckel i form av en sträng
-    private final HashMap<String, ArrayList<Actor>> graphMap;
-    private final HashSet<String> actors; //namnet på skådelspelaren
+    private final Actor bacon = new Actor("Bacon, Kevin (I)");
+    private final HashMap<String, ArrayList<String>> actors; //namn på skådespelare som nyckel, lista av filmer som värde
     private final HashMap<String, ArrayList<String>> movies; //titeln på filmen, sedan namnet på skådespelare
 
     /**
      * Konstruktor
      *
-     * @param file   Textfilen som innehåller skådespelare och filmer
-     *
+     * @param file Textfilen som innehåller skådespelare och filmer
      */
-    public Graph(String file) {
+    public Graph(String file) throws FileNotFoundException {
         movies = new HashMap<>();
-        graphMap = new HashMap<>();
-        actors = new HashSet<>();
+        actors = new HashMap<>();
         buildGraph(file);
     }
 
-    private void buildGraph(String file) {
-
-    }
-
-    private void addActorsFromMovie(String movieName) {
-
-    }
-
-    public void makeGraph(String fileName) throws FileNotFoundException {
+    private void buildGraph(String fileName) throws FileNotFoundException {
         try {
             FileReader reader = new FileReader(fileName);
             BufferedReader in = new BufferedReader(reader);
@@ -44,15 +33,20 @@ public class Graph {
                 String[] tokens = line.split(">");
                 String command = tokens[0];
                 if (command.equals("<a")) {
+
                     Actor actor = new Actor(tokens[1]);
-                    actors.add(actor.getName());
+                    if(!actors.containsKey(actor.getName())){
+                        actors.put(actor.getName(), new ArrayList<String>());
+                    }
                     line = in.readLine();
                     tokens = line.split(">");
                     command = tokens[0];
                     while (!command.equals("<a")) {
                         if (movies.containsKey(tokens[1])) {
-                            movies.get(tokens[1]).add(actor.getName());
+                            actors.get(actor.getName()).add(tokens[1]);
+                            movies.get(tokens[1]).add(actor.getName()); // lägg till i actors
                         } else {
+                            actors.get(actor.getName()).add(tokens[1]);
                             movies.put(tokens[1], new ArrayList<String>());
                             movies.get(tokens[1]).add(actor.getName());
                         }
@@ -73,7 +67,20 @@ public class Graph {
                 IOException e) {
             System.err.println("IO-fel! " + e.getMessage());
         }
+    }
 
+    private void addActorsFromMovie(String movieName) {
 
     }
+
+    public String findPathToBacon(String actor) {
+        Actor searchActor = new Actor((actor));
+        if (searchActor.equals(bacon)) {
+            return searchActor.toString();
+        }
+     return searchActor.toString();
+    }
+    //"De Niro, Robert" is 1 step away from Kevin B. The path is <a>Bacon, Kevin
+
+
 }
