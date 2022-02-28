@@ -29,9 +29,6 @@ public class Graph {
             String line = null;
             line = in.readLine();
             while (line != null) {
-                if(line.startsWith("<a>Bacon, Kevin (I)")){
-                    System.out.println("hi");
-                }
                 String[] tokens = line.split(">");
                 String command = tokens[0];
                 if (command.equals("<a")) {
@@ -77,7 +74,8 @@ public class Graph {
 
     public String findPathToBacon(String startActor) {
         if (startActor.equals(bacon.getName())) {
-            return startActor + 0;
+            List<String> path = computePath(startActor, null);
+            return buildPathString(path);
         }
         Queue<String> queue = new LinkedList<>();
         HashSet<String> visited = new HashSet<>();
