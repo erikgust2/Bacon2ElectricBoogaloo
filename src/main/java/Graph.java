@@ -7,7 +7,7 @@ import java.util.*;
 public class Graph {
 
 
-    private final Actor bacon = new Actor("Bacon, Kevin (I)");
+    private final static String BACON = "Bacon, Kevin (I)";
     private final HashMap<String, ArrayList<String>> actors; //namn på skådespelare som nyckel, lista av filmer som värde
     private final HashMap<String, ArrayList<String>> movies; //titeln på filmen, sedan namnet på skådespelare
 
@@ -23,6 +23,10 @@ public class Graph {
     }
 
     private void buildGraph(String fileName) throws FileNotFoundException {
+        actors.put("Bagge, Anders", new ArrayList<>());
+        actors.get("Bagge, Anders").add("Beck");
+        movies.put("Beck", new ArrayList<>());
+        movies.get("Beck").add("Bagge, Anders");
         try {
             FileReader reader = new FileReader(fileName);
             BufferedReader in = new BufferedReader(reader);
@@ -76,7 +80,7 @@ public class Graph {
         if(!actors.containsKey(startActor)){
             return "No such actor in the database!";
         }
-        if (startActor.equals(bacon.getName())) {
+        if (startActor.equals(BACON)) {
             List<String> path = computePath(startActor, null);
             return buildPathString(path);
         }
@@ -88,7 +92,7 @@ public class Graph {
 
         while (!queue.isEmpty()) {
             current = queue.poll();
-            if (current.equals(bacon.getName())) {
+            if (current.equals(BACON)) {
                 break;
             }
             visited.add(current);
@@ -119,12 +123,12 @@ public class Graph {
 
     private List<String> computePath(String startActor, HashMap<String, String> steps) {
         List<String> path = new ArrayList<>();
-        String current = bacon.getName();
-        if (startActor.equals(bacon.getName())) {
-            path.add(bacon.getName());
+        String current = BACON;
+        if (startActor.equals(BACON)) {
+            path.add(BACON);
             return path;
         }
-        if (!steps.containsKey(bacon.getName())) {
+        if (!steps.containsKey(BACON)) {
             return path;
         }
         while (!current.equals(startActor)) {
@@ -137,6 +141,9 @@ public class Graph {
     }
 
     private String buildPathString(List<String> path) {
+        if(path.size() == 0){
+            return "This actor does not have a Bacon-number";
+        }
         StringBuilder output = new StringBuilder();
         if (path.size() / 2 == 1) {
             output.append("\"" + path.get(0) + "\" is " + path.size() / 2 + " step away from Kevin B. The path is ");
