@@ -107,7 +107,7 @@ public class Graph {
         HashSet<String> visited = new HashSet<>();
         HashMap<String, String> steps = new HashMap<>();
         queue.add(startActor);
-        String current = startActor;
+        String current;
 
         while (!queue.isEmpty()) {
             current = queue.poll();
@@ -189,16 +189,16 @@ public class Graph {
         }
         StringBuilder output = new StringBuilder();
         if (path.size() / 2 == 1) {
-            output.append("\"" + path.get(0) + "\" is " + path.size() / 2 + " step away from Kevin B. The path is ");
+            output.append("\"").append(path.get(0)).append("\" is ").append(path.size() / 2).append(" step away from Kevin B. The path is ");
         } else {
-            output.append("\"" + path.get(0) + "\" is " + path.size() / 2 + " steps away from Kevin B. The path is ");
+            output.append("\"").append(path.get(0)).append("\" is ").append(path.size() / 2).append(" steps away from Kevin B. The path is ");
         }
         for (String element : path) {
             if (actors.containsKey(element)) {
-                output.append("<a> " + element + " </a>");
+                output.append("<a> ").append(element).append(" </a>");
             }
             if (movies.containsKey(element)) {
-                output.append("<t> " + element + " </t>");
+                output.append("<t> ").append(element).append(" </t>");
             }
         }
         return output.toString();
