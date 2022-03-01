@@ -7,7 +7,7 @@ public class Main {
 
 
     public static void main(String[] args) throws FileNotFoundException {
-        Graph graph = new Graph("C:/Users/a_luc/OneDrive/Skrivbord/Bacon/src/main/resources/moviedata.txt");
+        Graph graph = new Graph("C:/Users/Erik Gustafsson/Documents/Skolarbete/ALDA/Bacon2ElectricBoogaloo/src/main/resources/moviedata.txt");
         searchLoop(graph);
         //System.out.println(graph.findPathToBacon("Bergqvist, Kjell"));
         //System.out.println(graph.findPathToBacon("Bacon, Kevin (I)"));

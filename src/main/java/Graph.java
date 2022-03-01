@@ -22,6 +22,16 @@ public class Graph {
         buildGraph(file);
     }
 
+    /**
+     * Hjälpmetod till konstruktorn
+     *
+     * Tar filen med all data i plaintext och läser in den. Bygger stegvis upp grafen med filmer och skådespelare
+     * som noder.
+     *
+     * @param fileName Sökväg till textfilen som innehåller skådespelare och filmer. Skickas från konstruktorn
+     *
+     * @throws FileNotFoundException Om fil-sökvägen av någon anledning inte fungerar
+     */
     private void buildGraph(String fileName) throws FileNotFoundException {
         actors.put("Bagge, Anders", new ArrayList<>());
         actors.get("Bagge, Anders").add("Beck");
@@ -30,28 +40,28 @@ public class Graph {
         try {
             FileReader reader = new FileReader(fileName);
             BufferedReader in = new BufferedReader(reader);
-            String line = null;
+            String line;
             line = in.readLine();
             while (line != null) {
                 String[] tokens = line.split(">");
                 String command = tokens[0];
                 if (command.equals("<a")) {
 
-                    Actor actor = new Actor(tokens[1]);
-                    if (!actors.containsKey(actor.getName())) {
-                        actors.put(actor.getName(), new ArrayList<String>());
+                    String actor = tokens[1];
+                    if (!actors.containsKey(actor)) {
+                        actors.put(actor, new ArrayList<>());
                     }
                     line = in.readLine();
                     tokens = line.split(">");
                     command = tokens[0];
                     while (!command.equals("<a")) {
                         if (movies.containsKey(tokens[1])) {
-                            actors.get(actor.getName()).add(tokens[1]);
-                            movies.get(tokens[1]).add(actor.getName());
+                            actors.get(actor).add(tokens[1]);
+                            movies.get(tokens[1]).add(actor);
                         } else {
-                            actors.get(actor.getName()).add(tokens[1]);
-                            movies.put(tokens[1], new ArrayList<String>());
-                            movies.get(tokens[1]).add(actor.getName());
+                            actors.get(actor).add(tokens[1]);
+                            movies.put(tokens[1], new ArrayList<>());
+                            movies.get(tokens[1]).add(actor);
                         }
                         line = in.readLine();
                         if (line == null) {
@@ -75,7 +85,16 @@ public class Graph {
         }
     }
 
-
+    /**
+     * En bredden-först-sökning som börjar vid skådespelaren som angavs vid kommandoraden och sedan söker sig
+     * igenom grafen tills den hittar bacon eller får slut på anslutningar. Sedan används hjälpmetoden
+     * "computePath" för att konvertera stegen som tagits till en lista av besökta noder.
+     *
+     * @param startActor Skådespelaren vars relation till Kevin Bacon skall undersökas. Matas in med formatet
+     *                   "Efternamn, Förnamn", exempelvis "De Niro, Robert"
+     *
+     * @return Vägen från vald skådespelare till bacon returneras som en sträng med hjälp av metoden "buildPathString"
+     */
     public String findPathToBacon(String startActor) {
         if(!actors.containsKey(startActor)){
             return "No such actor in the database!";
@@ -121,6 +140,20 @@ public class Graph {
         return buildPathString(path);
     }
 
+    /**
+     * Hjälpmetod till findPathToBacon som tar HashMap-en av steg, börjar vid Bacon och stegar bakåt till angiven
+     * skådespelare. Bygger en lista av noder som passerats igenom och returnerar den reverserad. Om Kevin Bacon inte
+     * finns returneras en tom lista. Om den bara innehåller Kevin Bacon (alltså att han då var startnoden vid
+     * sökningen) så returneras en lista med bara honom i.
+     *
+     * @param startActor Skådespelaren som baconnumret beräknas utifrån. Matas in med formatet
+     *                   "Efternamn, Förnamn", exempelvis "De Niro, Robert"
+     *
+     * @param steps En HashMap av noder som stegats igenom för att nå Kevin Bacon. Nyckeln är noden som man kom till
+     *              och värdet är noden man gick ifrån.
+     *
+     * @return En lista av alla noder på den kortaste vägen från angiven skådespelare till Kevin Bacon
+     */
     private List<String> computePath(String startActor, HashMap<String, String> steps) {
         List<String> path = new ArrayList<>();
         String current = BACON;
@@ -140,6 +173,16 @@ public class Graph {
         return path;
     }
 
+    /**
+     * Hjälpmetod till findPathToBacon som tar den färdigtraverserade rutten och konverterar den till en sträng.
+     *
+     * Exempelkörning vid input "De Niro, Robert":
+     * "De Niro, Robert" is 1 step away from Kevin B. The path is <a>Bacon, Kevin
+     *
+     * @param path En Lista med alla noder på den kortaste vägen från angiven Skådespelare till Kevin Bacon
+     *
+     * @return Den traverserade vägen på strängformat med det totala bacon-numret angivet.
+     */
     private String buildPathString(List<String> path) {
         if(path.size() == 0){
             return "This actor does not have a Bacon-number";
@@ -160,10 +203,5 @@ public class Graph {
         }
         return output.toString();
     }
-    //"De Niro, Robert" is 1 step away from Kevin B. The path is <a>Bacon, Kevin
-    //? Trump, Donald J.
-    //      "Trump, Donald J." is 2 steps away from Kevin B. The path is <a>Bacon, Kevin
-    //(I)<a><t>Diner (1982)<t><a>Daly, Tim (I)<a><t>The Associate (1996)<t><a>Trump, Donald J.</a>
-
 
 }
