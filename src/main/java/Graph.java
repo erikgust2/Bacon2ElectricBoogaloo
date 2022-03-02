@@ -1,3 +1,10 @@
+/*
+ * Skapad i grupp.
+ * Gruppmedlemmar:
+ * Erik Gustafsson, ergu 5366
+ *
+ */
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
