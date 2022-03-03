@@ -2,7 +2,7 @@
  * Skapad i grupp.
  * Gruppmedlemmar:
  * Erik Gustafsson, ergu 5366
- *
+ * Anton Lückner, anlu6569
  */
 
 import java.io.BufferedReader;
@@ -21,7 +21,9 @@ public class Graph {
     /**
      * Konstruktor
      *
-     * @param file Textfilen som innehåller skådespelare och filmer
+     * @param file Fil-sökväg till textfilen som innehåller skådespelare och filmer
+     *
+     * @throws FileNotFoundException om fil-sökvägen av någon anledning inte fungerar
      */
     public Graph(String file) throws FileNotFoundException {
         movies = new HashMap<>();
@@ -93,14 +95,15 @@ public class Graph {
     }
 
     /**
-     * En bredden-först-sökning som börjar vid skådespelaren som angavs vid kommandoraden och sedan söker sig
-     * igenom grafen tills den hittar bacon eller får slut på anslutningar. Sedan används hjälpmetoden
-     * "computePath" för att konvertera stegen som tagits till en lista av besökta noder.
+     * En bredden-först-sökning som börjar vid skådespelaren och sedan söker sig
+     * igenom grafen tills den hittar bacon eller får slut på anslutningar.
      *
      * @param startActor Skådespelaren vars relation till Kevin Bacon skall undersökas. Matas in med formatet
      *                   "Efternamn, Förnamn", exempelvis "De Niro, Robert"
      *
      * @return Vägen från vald skådespelare till bacon returneras som en sträng med hjälp av metoden "buildPathString"
+     *         Om skådespelaren inte finns i databasen kommer detta att returneras av metoden som en sträng.
+     *         Om det saknas ett baconnummer returneras detta också som en sträng.
      */
     public String findPathToBacon(String startActor) {
         if(!actors.containsKey(startActor)){
