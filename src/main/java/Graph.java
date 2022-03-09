@@ -124,17 +124,17 @@ public class Graph {
             if (current.equals(BACON)) {
                 break;
             }
-            visited.add(current);
+            //visited.add(current);
             if (actors.containsKey(current)) {
                 for (String movie : actors.get(current)) {
-                    if (!visited.contains(movie)) {
+                    if (!steps.containsKey(movie)) {
                         queue.add(movie);
                         steps.putIfAbsent(movie, current);
                     }
                 }
             } else if (movies.containsKey(current)) {
                 for (String actor : movies.get(current)) {
-                    if (!visited.contains(actor)) {
+                    if (!steps.containsKey(actor)) {
                         queue.add(actor);
                         steps.putIfAbsent(actor, current);
                     }
