@@ -114,7 +114,6 @@ public class Graph {
             return buildPathString(path);
         }
         Queue<String> queue = new LinkedList<>();
-        HashSet<String> visited = new HashSet<>();
         HashMap<String, String> steps = new HashMap<>();
         queue.add(startActor);
         String current;
@@ -124,7 +123,6 @@ public class Graph {
             if (current.equals(BACON)) {
                 break;
             }
-            //visited.add(current);
             if (actors.containsKey(current)) {
                 for (String movie : actors.get(current)) {
                     if (!steps.containsKey(movie)) {
